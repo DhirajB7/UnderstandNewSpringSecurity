@@ -13,6 +13,20 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
+	
+//	In Memory way to do stuffs better is JDBC[user,authorites] written on top
+//	@Bean
+//	InMemoryUserDetailsManager userDetailsManager() {
+//
+//		UserDetails john = User.builder().username("john").password("{noop}test123").roles("EMPLOYEE").build();
+//		UserDetails mary = User.builder().username("mary").password("{noop}test123").roles("EMPLOYEE", "MANAGER")
+//				.build();
+//		UserDetails susan = User.builder().username("susan").password("{noop}test123")
+//				.roles("EMPLOYEE", "MANAGER", "ADMIN").build();
+//
+//		return new InMemoryUserDetailsManager(john, mary, susan);
+//
+//	}
 
 //	thats it, things happen from DB
 	@Bean
@@ -36,18 +50,6 @@ public class SecurityConfiguration {
 
 	}
 
-//	In Memory way to do stuffs better is JDBC[user,authorites] written on top
-//	@Bean
-//	InMemoryUserDetailsManager userDetailsManager() {
-//
-//		UserDetails john = User.builder().username("john").password("{noop}test123").roles("EMPLOYEE").build();
-//		UserDetails mary = User.builder().username("mary").password("{noop}test123").roles("EMPLOYEE", "MANAGER")
-//				.build();
-//		UserDetails susan = User.builder().username("susan").password("{noop}test123")
-//				.roles("EMPLOYEE", "MANAGER", "ADMIN").build();
-//
-//		return new InMemoryUserDetailsManager(john, mary, susan);
-//
-//	}
+
 
 }
