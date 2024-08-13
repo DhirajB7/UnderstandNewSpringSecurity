@@ -22,13 +22,16 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeServiceImpl employeeService;
 
-	// expose "/employees" and return a list of employees
+	@GetMapping("/welcome")
+	public String greet() {
+		return "HELLO WORLD !!!";
+	}
+	
 	@GetMapping("/")
 	public List<Employee> findAll() {
 		return employeeService.findAll();
 	}
 
-	// add mapping for GET /employees/{employeeId}
 
 	@GetMapping("/{employeeId}")
 	public Employee getEmployee(@PathVariable int employeeId) {
@@ -42,14 +45,12 @@ public class EmployeeController {
 		return theEmployee;
 	}
 
-	// add mapping for POST /employees - add new employee
 
 	@PostMapping("/")
 	public Employee addEmployee(@RequestBody Employee theEmployee) {
 		return employeeService.save(theEmployee);
 	}
 
-	// add mapping for PUT /employees - update existing employee
 
 	@PutMapping("/")
 	public Employee updateEmployee(@RequestBody Employee theEmployee) {
@@ -59,7 +60,6 @@ public class EmployeeController {
 		return dbEmployee;
 	}
 
-	// add mapping for DELETE /employees/{employeeId} - delete employee
 
 	@DeleteMapping("/{employeeId}")
 	public String deleteEmployee(@PathVariable int employeeId) {
