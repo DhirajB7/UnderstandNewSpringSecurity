@@ -2,6 +2,6 @@
 
 - Authentication is done by storing userDetails in memory DB
 - Authorization is done by security filter.
-- advantages : works good for very few users + no external DB needed.
+- advantages : works good for very few users + no external DB needed(for security alone).
 - disadvantages : code has user details. 
  
