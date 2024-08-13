@@ -38,12 +38,6 @@ public class SecurityConfiguration {
 
 	}
 
-//	//Authentication related - saved in DB
-//	@Bean
-//	public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//		return new JdbcUserDetailsManager(dataSource);
-//	}
-
 	//Authorization  related
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
