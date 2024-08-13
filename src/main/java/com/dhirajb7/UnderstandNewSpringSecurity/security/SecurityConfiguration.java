@@ -6,11 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -23,26 +20,12 @@ public class SecurityConfiguration {
 		return new BCryptPasswordEncoder();
 	}
 
-    //Authentication related - saved in memory of system(in Memory)
+	//Authentication related - saved in DB
     @Bean
     UserDetailsManager userDetailsManager(PasswordEncoder encoder) {
-
-		UserDetails admin = User.withUsername("admin").password(encoder.encode("admin")).roles("ADMIN").build();
-		
-		UserDetails employee = User.withUsername("employee").password(encoder.encode("employee")).roles("EMPLOYEE").build();
-		
-		UserDetails manager = User.withUsername("manager").password(encoder.encode("manager")).roles("MANAGER").build();
-		
-		return new InMemoryUserDetailsManager(admin,employee,manager);
-		
-
+    	return new UserInfoDetailsService();
 	}
 
-//	//Authentication related - saved in DB
-//	@Bean
-//	public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//		return new JdbcUserDetailsManager(dataSource);
-//	}
 
 	//Authorization  related
 	@Bean
