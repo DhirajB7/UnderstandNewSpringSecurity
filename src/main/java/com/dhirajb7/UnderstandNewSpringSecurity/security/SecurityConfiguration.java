@@ -4,6 +4,8 @@ package com.dhirajb7.UnderstandNewSpringSecurity.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,9 +24,18 @@ public class SecurityConfiguration {
 
 	//Authentication related - saved in DB
     @Bean
-    UserDetailsManager userDetailsManager(PasswordEncoder encoder) {
+    UserDetailsManager userDetailsManager() {
     	return new UserInfoDetailsService();
 	}
+    
+    //UserInfoDetailsService can talk to userinfo table if AuthenticationProvider has information about passwordEncoder & userDetailService
+    @Bean
+    AuthenticationProvider authenticationProvider() {
+    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+    	authenticationProvider.setUserDetailsService(userDetailsManager()); //method name of bean which handles user details manager
+    	authenticationProvider.setPasswordEncoder(passwordEncoder());       // method name of bean which handles password encoder
+    	return authenticationProvider;
+    }
 
 
 	//Authorization  related
@@ -33,6 +44,7 @@ public class SecurityConfiguration {
 
 		http.authorizeHttpRequests(config -> config
 				.requestMatchers(HttpMethod.GET,"/emp/welcome").permitAll()
+				.requestMatchers(HttpMethod.POST,"/user/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/emp/").hasAnyRole("ADMIN","MANAGER","EMPLOYEE")
 				.requestMatchers(HttpMethod.GET, "/emp/**").hasAnyRole("ADMIN","MANAGER","EMPLOYEE")
 				.requestMatchers(HttpMethod.POST, "/emp/").hasRole("ADMIN")
@@ -46,6 +58,8 @@ public class SecurityConfiguration {
 		return http.build();
 
 	}
+	
+	
 
 
 
